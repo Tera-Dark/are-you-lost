@@ -3,106 +3,88 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#10131b">
-  <meta name="description" content="《ARE YOU LOST?》一场关于微小选择、因果、迷茫与第四面墙的交互电影。">
+  <meta name="theme-color" content="#090909">
+  <meta name="description" content="《ARE YOU LOST?》手机竖屏黑白互动电影：微小选择、因果、迷茫与动感文字。">
   <title>ARE YOU LOST? — 你也迷路了吗</title>
-  <style>
-    :root{color-scheme:dark;--ink:#eeeae8;--muted:#a5a8b3;--quiet:#737989;--line:rgba(225,228,235,.13);--accent:#e1bea8;--panel:rgba(17,21,30,.72);font-family:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif}
-    *{box-sizing:border-box}html{min-height:100%;scroll-behavior:smooth}body{margin:0;min-height:100vh;background:#0b0e16;color:var(--ink);overflow-x:hidden}
-    button,textarea{font:inherit}button{cursor:pointer}button:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
-    .skip{position:absolute;left:-999px;top:12px;background:#fff;color:#111;padding:12px;z-index:30}.skip:focus{left:12px}
-    .atmosphere{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:-1;background:radial-gradient(ellipse 40% 27% at 70% 19%,rgba(90,81,94,.30),transparent 70%),radial-gradient(ellipse 55% 60% at 15% 90%,rgba(27,39,61,.48),transparent 75%),linear-gradient(160deg,#141520 0%,#0d111b 49%,#090b12 100%)}
-    .atmosphere:after{content:"";position:absolute;inset:0;opacity:.12;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.4'/%3E%3C/svg%3E")}
-    .moon{position:absolute;right:17%;top:13%;height:118px;width:118px;border-radius:50%;background:#e6d6ce;opacity:.29;filter:blur(1px);box-shadow:0 0 70px 30px rgba(211,182,175,.13)}
-    .horizon{position:absolute;bottom:0;left:0;right:0;height:32%;background:linear-gradient(to bottom,transparent 0%,#080b12 66%);border-top:1px solid rgba(210,197,197,.04)}
-    .roof{position:absolute;right:-8%;bottom:17%;height:17%;width:92%;clip-path:polygon(12% 52%,85% 32%,100% 58%,100% 100%,0 100%);background:#0a0c13;box-shadow:0 0 30px #000}
-    .platform-light{position:absolute;right:27%;top:26%;height:50%;width:2px;background:linear-gradient(#777782,#171b28);opacity:.4}.platform-light:before{content:"";position:absolute;top:0;left:-23px;width:48px;height:4px;background:#adb0b5;box-shadow:0 0 48px 16px rgba(202,189,178,.14)}
-    .shell{max-width:1180px;margin:0 auto;padding:0 34px 20px;min-height:100vh;display:flex;flex-direction:column}
-    .header{display:flex;justify-content:space-between;align-items:center;min-height:107px;border-bottom:1px solid var(--line);gap:20px}
-    .brand{font-size:14px;font-weight:700;letter-spacing:.27em;color:#f0ece8}.brand small{display:block;color:#9799a4;font-size:10px;letter-spacing:.18em;font-weight:400;margin-top:9px}
-    .header-actions{display:flex;gap:8px;align-items:center}.ghost{border:1px solid var(--line);background:rgba(23,27,38,.38);color:#b5b6be;border-radius:7px;padding:9px 13px;font-size:12px;transition:.2s}.ghost:hover{border-color:rgba(225,190,168,.6);color:#fff}
-    .layout{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:clamp(24px,6vw,82px);align-items:start;flex:1;padding-top:clamp(38px,7vh,86px)}
-    .eyebrow{font-size:11px;letter-spacing:.2em;color:#b69d95;text-transform:uppercase}.kicker{display:flex;align-items:center;gap:18px;margin-bottom:22px}.kicker:after{content:"";height:1px;background:var(--line);flex:1}
-    .scene-title{font-size:clamp(32px,5.1vw,58px);font-weight:400;line-height:1.42;letter-spacing:.025em;margin:0 0 18px;font-family:"Noto Serif SC","Songti SC","SimSun",serif;text-wrap:balance}
-    .scene-subtitle{font-size:12px;letter-spacing:.11em;color:#a4a4af;margin-bottom:42px}
-    .dialogue{min-height:185px;max-width:700px;animation:rise .5s both}.line{margin-bottom:25px;line-height:1.95;font-size:15px;letter-spacing:.023em;color:#d8d7db;white-space:pre-line}.line[data-voice="narrator"]{color:#a8acb8;font-size:14px}.line[data-voice="girl"]{padding-left:18px;border-left:1px solid rgba(225,190,168,.45);color:#e9e0dc}.line[data-voice="self"]{color:#e1bea8}
-    .speaker{display:block;font-size:10px;letter-spacing:.14em;color:#9d8990;margin-bottom:7px}
-    .choices{max-width:620px;margin-top:32px;padding-bottom:44px;display:grid;gap:10px;animation:rise .7s both}
-    .choice{width:100%;display:flex;align-items:center;gap:18px;justify-content:space-between;text-align:left;background:rgba(29,33,44,.58);border:1px solid rgba(213,216,228,.14);color:#e5e2e2;padding:17px 19px;border-radius:7px;line-height:1.6;transition:transform .2s,border .2s,background .2s;font-size:14px}
-    .choice:hover{transform:translateX(4px);border-color:rgba(225,190,168,.58);background:rgba(47,43,52,.72)}.choice .arr{font-size:19px;flex-shrink:0;color:#c8a89a}
-    .side{border-left:1px solid var(--line);padding-left:29px;position:sticky;top:35px}
-    .side-head{font-size:11px;letter-spacing:.15em;color:#aea8ac}.side p{color:#8e929d;font-size:12px;line-height:2;margin:12px 0 24px}
-    .stamp{font-size:37px;letter-spacing:-.05em;color:#ddd5d3;font-family:Georgia,serif}.stamp span{font-size:11px;color:#878a96;letter-spacing:.07em;margin-left:6px}
-    .divider{height:1px;background:var(--line);margin:24px 0}
-    .collected{display:flex;flex-wrap:wrap;gap:9px;margin:17px 0 12px}.token{font-size:11px;border:1px solid rgba(219,199,190,.2);border-radius:5px;padding:7px 10px;color:#bdb1ae;background:rgba(255,255,255,.025)}.token.found{color:#edc7af;border-color:rgba(225,190,168,.53);background:rgba(225,190,168,.07)}
-    .quote{font-size:12px!important;line-height:2.1!important;color:#d0c4c1!important;white-space:pre-line;overflow-wrap:anywhere}
-    .foot{display:flex;gap:18px;justify-content:space-between;align-items:center;border-top:1px solid var(--line);min-height:70px;color:#777d8d;font-size:11px;line-height:1.7}.foot button{background:none;border:0;color:#9fa5b2;text-decoration:underline;text-decoration-color:#59616d;text-underline-offset:4px;padding:8px}
-    textarea{display:block;width:100%;min-height:135px;resize:vertical;padding:18px;background:rgba(13,15,23,.7);border:1px solid rgba(225,190,168,.33);border-radius:7px;color:#efebec;line-height:1.85;margin-bottom:12px}textarea::placeholder{color:#777986}
-    .note-hint{font-size:12px;color:#9295a1;line-height:1.9}.note-actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
-    .primary{background:#dbc1b1;border:1px solid #dbc1b1;color:#1a1920;font-size:13px;padding:11px 18px;border-radius:6px;font-weight:600}.primary:hover{background:#f1d9c9}
-    dialog{width:min(440px,calc(100% - 28px));border:1px solid rgba(220,190,179,.35);background:#1c202a;color:#efebeb;border-radius:12px;padding:29px;line-height:1.9;box-shadow:0 30px 100px #000b}
-    dialog::backdrop{background:rgba(0,0,0,.72);backdrop-filter:blur(7px)}dialog h2{font:400 24px "Noto Serif SC","Songti SC",serif;margin:0 0 16px}dialog p{font-size:13px;color:#c5c6cf}dialog a{color:#f0cdb8}
-    .soft{font-size:11px;color:#888c99}.note-preview{font-size:12px;line-height:1.9;border-left:1px solid #8d7169;padding-left:12px;color:#b6adb0;white-space:pre-wrap;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
-
-    .film-strip{display:flex;justify-content:space-between;gap:20px;align-items:center;border-top:1px solid rgba(225,190,168,.19);border-bottom:1px solid rgba(225,190,168,.19);padding:12px 0;margin:-15px 0 30px;font:10px Georgia,serif;letter-spacing:.13em;color:#d4baa8;line-height:1.6}
-    .film-strip #worldCue{font-family:"Noto Sans SC","Microsoft YaHei",sans-serif;color:#9b9ca7;letter-spacing:.04em;text-align:right}
-    .world-note{color:#c3bdc0!important}
-    .causal-note{color:#bf9d8c!important}
-    @media(max-width:550px){.film-strip{gap:12px}}
-    @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-    @media(max-width:800px){.shell{padding:0 22px 14px}.header{min-height:85px}.layout{display:block;padding-top:35px}.scene-subtitle{margin-bottom:29px}.dialogue{min-height:0}.side{border-left:0;border-top:1px solid var(--line);padding:22px 0 18px;position:static;margin-top:8px}.side p{margin-bottom:9px}.divider{margin:16px 0}.moon{right:3%;width:80px;height:80px}.roof{bottom:7%}}
-    @media(max-width:480px){.header-actions{gap:5px}.ghost{padding:8px;font-size:11px}.brand{font-size:11px}.brand small{font-size:9px}.scene-title{font-size:34px}.line{font-size:14px}.choices{margin-top:24px}.foot{align-items:flex-start;gap:8px;padding-top:12px}.foot span{max-width:60%}}
-    @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
-  </style>
+  <link rel="stylesheet" href="./cinema.css">
 </head>
 <body>
-<a class="skip" href="#story">跳转到正文</a>
-<div class="atmosphere" aria-hidden="true"><div class="moon"></div><div class="platform-light"></div><div class="roof"></div><div class="horizon"></div></div>
-<div class="shell">
-  <header class="header">
-    <div class="brand">ARE YOU LOST?<small>一场你参与、却不能完全掌控的放映</small></div>
-    <nav class="header-actions" aria-label="游戏菜单">
-      <button class="ghost" id="journalBtn" type="button">随身笔记</button>
-      <button class="ghost" id="resetBtn" type="button">重来</button>
-    </nav>
-  </header>
-  <main class="layout" id="story">
-    <section class="main-story" aria-label="互动故事">
-      <div class="kicker"><span class="eyebrow" id="chapter">00 / 凌晨</span></div>
-      <h1 class="scene-title" id="sceneTitle">你也迷路了吗？</h1>
-      <div class="scene-subtitle" id="sceneSubtitle">最后一班车已经离开。</div>
-      <div class="film-strip" aria-label="放映中的镜头"><span id="frameIndex">REEL 01 · SHOT 01</span><span id="worldCue">画外，世界继续。</span></div>
-      <div class="dialogue" id="dialogue" aria-live="polite"></div>
-      <div id="extra"></div>
-      <div class="choices" id="choices"></div>
+<a class="skip" href="#screen">跳转到放映画面</a>
+<div class="projector">
+  <main id="film" class="film" data-emotion="memory" data-scene="start">
+    <div class="grain" aria-hidden="true"></div><div class="scratch" aria-hidden="true"></div>
+    <header class="film-head">
+      <div class="brand">ARE YOU LOST?<small>一部没有终点的电影</small></div>
+      <div class="actions">
+        <button id="soundBtn" class="subtle-btn" type="button" aria-label="开启或关闭环境声" aria-pressed="false">SOUND OFF</button>
+        <button id="menuBtn" class="subtle-btn dots" type="button" aria-label="放映菜单">⋯</button>
+      </div>
+    </header>
+    <section id="screen" class="screen" tabindex="0" role="button" aria-label="轻触继续放映">
+      <div id="effectField" class="effect-field" aria-hidden="true"></div>
+      <div id="frame" class="frame">REEL 01 / SHOT 001</div>
+      <div id="timecode" class="timecode">03:17 · B&W</div>
+      <div id="chapter" class="chapter">00 / 凌晨</div>
+      <h1 id="heading" class="heading">你也迷路了吗？</h1>
+      <p id="subtitle" class="subtitle">最后一班车已经离开。</p>
+      <div id="lineWrap" class="line-wrap">
+        <div id="voice" class="voice"></div>
+        <p id="line" class="line" aria-live="polite" aria-atomic="true"></p>
+      </div>
+      <div id="tapHint" class="tap-hint" aria-hidden="true">轻触银幕 · 下一镜</div>
     </section>
-    <aside class="side" aria-label="旅途记录">
-      <div class="side-head">SCREENING ROOM / 03:17</div>
-      <p>没有地图，没有正确选项。<br>这里记录你愿意触碰的问题。</p>
-      <div class="stamp"><span id="count">00</span><span> / 06 个问题</span></div>
-      <div class="divider"></div>
-      <div class="side-head">你路过的地方</div>
-      <div class="collected" id="tokens"></div>
-      <div class="divider"></div>
-      <div class="side-head">镜头之外</div>
-      <p id="outsideNote" class="world-note">站台之外，城市照常运作。</p>
-      <p id="causalNote" class="causal-note">一枚硬币，还没有自己的下一幕。</p>
-      <div class="divider"></div>
-      <div class="side-head">写给自己的话</div>
-      <p class="quote" id="sideNote">还没有写下什么。沉默也没关系。</p>
-    </aside>
+    <section class="dock" aria-label="字幕与互动选项">
+      <div class="dock-head">
+        <span id="sceneCount">FRAME 01 / 03</span>
+        <button id="skipBtn" class="skip-btn" type="button">跳过对白 →</button>
+      </div>
+      <div class="rail" aria-hidden="true"><div id="railFill"></div></div>
+      <div id="choices" class="choices" aria-label="当前场景的可用选项"></div>
+      <div id="extra" class="extra"></div>
+    </section>
+    <footer class="film-foot"><span>AN INTERACTIVE FILM / NO RIGHT ANSWERS</span><button id="helpBtn" class="footer-btn" type="button">现实求助</button></footer>
   </main>
-  <footer class="foot"><span>本游戏免费、无账号、无追踪。文字只存于当前浏览器。它不是心理诊断或治疗。</span><button id="helpBtn" type="button">当现实里真的撑不住时</button></footer>
 </div>
+<dialog id="menuDialog" aria-labelledby="menuTitle">
+  <h2 id="menuTitle">放映室</h2>
+  <p>这是一部你亲自参与的电影。你可以暂停、重看，或者在任何时候离开。</p>
+  <div class="menu-buttons">
+    <button id="autoBtn" type="button">自动放映：关闭</button>
+    <button id="motionBtn" type="button">动态排版：开启</button>
+    <button id="noteBtn" type="button">写在车票背面 · 私人笔记</button>
+    <button id="recordBtn" type="button">查看放映记录</button>
+    <button id="resetBtn" type="button">从头放映并清除本机记录</button>
+  </div>
+  <div class="section-label">排版试镜 / TYPOGRAPHY TEST</div>
+  <p>这里可以直接预览四种文字演出，不改变剧情进度。</p>
+  <div class="previews">
+    <button type="button" data-preview="scatter">杂念 / 放射</button>
+    <button type="button" data-preview="pressure">压力 / 挤压</button>
+    <button type="button" data-preview="void">虚无 / 消隐</button>
+    <button type="button" data-preview="memory">记忆 / 显影</button>
+  </div>
+  <form method="dialog"><button class="outline">返回放映</button></form>
+</dialog>
+<dialog id="recordDialog" aria-labelledby="recordTitle">
+  <h2 id="recordTitle">放映记录</h2>
+  <p>触碰过的问题</p>
+  <div id="tokens" class="tokens"></div>
+  <p>镜头之外</p>
+  <p id="outside" class="memo-view"></p>
+  <p id="cause" class="memo-view"></p>
+  <p>写给自己的话</p>
+  <p id="memo" class="memo-view"></p>
+  <form method="dialog"><button class="outline">回到银幕</button></form>
+</dialog>
 <dialog id="helpDialog" aria-labelledby="helpTitle">
-  <h2 id="helpTitle">游戏之外，也有人可以陪你。</h2>
-  <p>如果你正有伤害自己的念头，或担心自己现在无法保证安全，请先退出游戏，尽量不要独处，联系信任的人并告诉对方你现在需要陪伴。若有迫在眉睫的危险，联系当地急救服务。</p>
-  <p>在中国大陆，可以拨打 <strong>12356</strong> 心理援助热线；在美国，可以拨打或短信 <strong>988</strong>。其他地区请联系当地危机支持服务。热线不能替代紧急医疗救助。</p>
-  <p>你不需要先想好怎么解释自己的感受，才值得获得帮助。</p>
-  <form method="dialog"><button class="primary">我知道了</button></form>
-  <p class="soft">资源来源：国家卫生健康委员会、美国 CDC。</p>
+  <h2 id="helpTitle">电影之外，也有人可以陪你。</h2>
+  <p>如果你正有伤害自己的念头，或担心无法保证当下安全，请先退出游戏，尽量不要独处，联系信任的人，并告诉对方你需要陪伴。如有迫在眉睫的危险，请联系当地急救服务。</p>
+  <p>中国大陆可拨打 <strong>12356</strong> 心理援助热线；美国可拨打或短信 <strong>988</strong>。其他地区请联系当地危机支持服务。</p>
+  <p>游戏不是心理诊断或治疗，热线也不能替代紧急医疗救助。</p>
+  <form method="dialog"><button class="outline">我知道了</button></form>
 </dialog>
 <script>
+
 (function(){
   'use strict';
   const KEY = 'are-you-lost:v1';
@@ -320,118 +302,9 @@
       choices:[{label:'再坐一会儿。',next:'hall'},{label:'在车票上写一句话。',next:'note'},{label:'重新走进这座车站。',next:'start'}]
     }
   };
-  function fresh(){return {node:'start',visited:[],note:'',started:Date.now(),incident:null,seen:{}}}
-  function readState(){
-    try {const s=JSON.parse(localStorage.getItem(KEY)||'null');if(s && S[s.node] && Array.isArray(s.visited)) return {node:s.node,visited:s.visited.filter(x=>TOPICS[x]),note:typeof s.note==='string'?s.note.slice(0,600):'',started:s.started||Date.now(),incident:['returned','ledge','untouched'].includes(s.incident)?s.incident:null,seen:s.seen&&typeof s.seen==='object'?s.seen:{}}}
-    catch(e){}
-    return fresh();
-  }
-  let state=readState();
-  const $=id=>document.getElementById(id);
-  const make=(tag,cls,text)=>{
-    const el=document.createElement(tag);if(cls)el.className=cls;if(text!==undefined)el.textContent=text;return el;
-  };
-  const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}};
-  function go(id){
-    if(!S[id])return;
-    state.node=id;
-    state.seen[id]=(Number(state.seen[id])||0)+1;
-    if(S[id].incident)state.incident=S[id].incident;
-    if(S[id].topic && !state.visited.includes(S[id].topic))state.visited.push(S[id].topic);
-    save();render();window.scrollTo({top:0,behavior:'smooth'});
-  }
-  function render(){
-    const s=S[state.node];
-    $('chapter').textContent=s.chapter;
-    $('sceneTitle').textContent=s.title;
-    $('sceneSubtitle').textContent=s.subtitle;
-    $('dialogue').replaceChildren();
-    const lines=typeof s.lines==='function'?s.lines(state):s.lines;
-    for(const [who,t] of lines){
-      const p=make('p','line',t);
-      p.dataset.voice=who;
-      if(who==='girl'){p.prepend(make('span','speaker','她 / THE STRANGER'));}
-      if(who==='self'){p.prepend(make('span','speaker','你 / YOU'));}
-      $('dialogue').append(p);
-    }
-    $('extra').replaceChildren();
-    $('choices').replaceChildren();
-    if(state.node==='note') renderNote();
-    if(state.node==='ending') renderEnding();
-    if(state.node==='lossA' && state.visited.includes('money')){
-      const e=make('p','line','“你刚才谈过钱。”她说，“资源不足和失去后的遗憾，会缠在一起，但它们不是同一件事。”');
-      e.dataset.voice='girl';$('dialogue').append(e);
-    }
-    if(state.node==='meaningB' && state.visited.includes('work')){
-      const e=make('p','line','你想起刚才关于劳动价值的谈话。原来你也曾经拿市场给出的价格衡量自己。');
-      e.dataset.voice='narrator';$('dialogue').append(e);
-    }
-    for(const ch of s.choices.filter(ch=>!ch.when||ch.when(state))){
-      const b=make('button','choice');
-      b.type='button';b.append(make('span','',ch.label),make('span','arr','↗'));
-      b.addEventListener('click',()=>{
-        if(ch.action==='help'){$('helpDialog').showModal();return;}
-        go(ch.next);
-      });
-      $('choices').append(b);
-    }
-    const independentEvents=[
-      '站外的送货车正在卸货，司机已经工作四个小时。',
-      '夜班保洁员在交接钥匙，有一把暂时找不到。',
-      '便利店点亮了灯。第一位顾客只买了一个面包。',
-      '一个年轻人登上早班车，准备去面试一份不喜欢的工作。',
-      '城市里的早班人群陆续经过，没人注意候车室。',
-      '天色渐亮，路口的交通灯按照固定节奏变化。',
-      '另一条街的早餐店开门了。今天也有人忘带零钱。'
-    ];
-    const coinEcho={returned:'硬币已经递给清洁工，他并不能确认是否属于自己。',ledge:'硬币被留在台面，后来被清洁工收进失物盒。',untouched:'硬币没有被捡起，最后滑进了机器底座。'};
-    $('frameIndex').textContent='REEL 01 · SHOT '+String(Object.values(state.seen).reduce((n,v)=>n+(Number(v)||0),1)).padStart(2,'0');
-    $('worldCue').textContent='画外 / 世界并不等待你';
-    $('outsideNote').textContent=independentEvents[Math.min(state.visited.length,independentEvents.length-1)];
-    $('causalNote').textContent=coinEcho[state.incident]||'一枚硬币仍在等待下一个镜头。';
-    $('count').textContent=String(state.visited.length).padStart(2,'0');
-    $('tokens').replaceChildren();
-    for(const [key,name] of Object.entries(TOPICS)){
-      $('tokens').append(make('span','token'+(state.visited.includes(key)?' found':''),name));
-    }
-    $('sideNote').textContent=state.note||'还没有写下什么。沉默也没关系。';
-    document.title=s.title+' — ARE YOU LOST?';
-  }
-  function renderNote(){
-    const wrapper=make('div','');
-    const area=make('textarea');area.id='memo';area.maxLength=600;area.placeholder='现在的我，最难对别人说出口的事是……';area.value=state.note;
-    area.setAttribute('aria-label','写给自己的话');
-    const hint=make('div','note-hint','最多 600 字。没有 AI 分析，没有上传，没有所谓正确情绪。');
-    const actions=make('div','note-actions');
-    const saveBtn=make('button','primary','保存到本机');
-    saveBtn.type='button';
-    const status=make('span','note-hint');status.setAttribute('role','status');
-    saveBtn.addEventListener('click',()=>{state.note=area.value.slice(0,600);save();$('sideNote').textContent=state.note||'还没有写下什么。沉默也没关系。';status.textContent='已经留在这个浏览器里了。';});
-    actions.append(saveBtn,status);wrapper.append(area,hint,actions);$('extra').append(wrapper);
-  }
-  function renderEnding(){
-    const p=make('p','line');
-    p.dataset.voice='narrator';
-    const n=state.visited.length;
-    p.textContent=n===0?'你还没有谈及任何问题。没关系，这里允许沉默。':n<3?'你只谈了几个问题。也许其余的，还不适合今天触碰。':'你走过了 '+n+' 个问题，没有谁因此给你颁发一张“想明白了”的证明。';
-    $('dialogue').append(p);
-    const echoes={returned:'你把硬币交给了不确定的失主。那一刻发生过，但你不知道它之后有多重要。',ledge:'硬币进了失物盒。你的好意有了去向，却没有人知道它是谁留下的。',untouched:'硬币滑进机器底座。你没做决定，世界也没有因此停下。'};
-    if(state.incident){const ep=make('p','line','【另一条因果】\n'+echoes[state.incident]);ep.dataset.voice='narrator';$('dialogue').append(ep);}
-    if(state.note){const n=make('p','line','你留下的一句话：\n“'+state.note+'”');n.dataset.voice='self';$('dialogue').append(n);}
-    const exportBtn=make('button','ghost','把这张车票带走 · 导出文字');
-    exportBtn.type='button';exportBtn.style.marginBottom='20px';
-    exportBtn.addEventListener('click',exportNote);$('extra').append(exportBtn);
-  }
-  function exportNote(){
-    const content=['ARE YOU LOST?','一张没有终点的车票','', '触碰过的问题：'+(state.visited.map(k=>TOPICS[k]).join(' / ')||'尚未选择'),'','写给自己的话：',state.note||'（留白）','','不必急着回答一生。'].join('\n');
-    const blob=new Blob([content],{type:'text/plain;charset=utf-8'});
-    const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='are-you-lost-车票.txt';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
-  }
-  $('journalBtn').addEventListener('click',()=>go('note'));
-  $('resetBtn').addEventListener('click',()=>{if(confirm('从头开始并清除本机保存的笔记与旅途记录吗？这一步无法撤销。')){state=fresh();save();render();}});
-  $('helpBtn').addEventListener('click',()=>$('helpDialog').showModal());
-  render();
+  window.AYL={KEY,TOPICS,S};
 })();
 </script>
+<script src="./cinema.js"></script>
 </body>
 </html>
