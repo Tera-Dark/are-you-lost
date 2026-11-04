@@ -19,7 +19,7 @@
 项目现已包含一个可在现代浏览器打开的零依赖静态原型：
 
 - 下载仓库根目录的 **index.html**，直接打开；
-- 或在 **Settings → Pages → Build and deployment → Deploy from a branch → main / (root)** 开通 GitHub Pages，使用 Pages 显示的地址访问。Pages 尚未在这里自动启用。
+- 或访问 **[GitHub Pages 在线版本](https://tera-dark.github.io/are-you-lost/)**。网站从 `main` 分支根目录自动发布。
 
 ### 一个镜头
 
