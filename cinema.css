@@ -1,0 +1,77 @@
+
+:root{color-scheme:dark;--white:#f3f3f1;--muted:#a1a1a1;--line:#ffffff2a;font-family:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#080808;color:var(--white)}body{overflow-x:hidden}
+button,textarea{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:focus-visible,textarea:focus-visible,.screen:focus-visible{outline:2px solid #fff;outline-offset:3px}
+::selection{background:#ddd;color:#111}
+.skip{position:absolute;left:12px;top:-80px;padding:10px;background:white;color:black;z-index:50}.skip:focus{top:12px}
+.projector{width:100%;min-height:100dvh;display:flex;justify-content:center;align-items:center;position:relative;background:radial-gradient(circle,#202020 0%,#070707 66%)}
+.projector:after{content:"THE WORLD DOES NOT WAIT FOR YOU.";position:absolute;left:max(22px,calc(50% - 550px));bottom:8%;writing-mode:vertical-rl;font:10px Georgia,serif;letter-spacing:.19em;color:#454545}
+.film{isolation:isolate;position:relative;width:min(100%,450px);height:100dvh;min-height:520px;max-height:960px;display:grid;grid-template-rows:55px minmax(0,1fr) auto 42px;overflow:hidden;background:radial-gradient(ellipse 90% 85% at 50% 42%,#242424 0%,#0e0e0e 60%,#050505 100%);box-shadow:0 18px 90px #000c,0 0 0 1px #ffffff1a}
+.film:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#0006 0%,transparent 8%,transparent 92%,#0006 100%),radial-gradient(ellipse at center,transparent 35%,#0008 100%);z-index:20;pointer-events:none}
+.grain{position:absolute;inset:-20%;z-index:19;pointer-events:none;mix-blend-mode:screen;opacity:.12;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.76' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");animation:grain .3s steps(3) infinite}
+.scratch{position:absolute;width:1px;height:60%;top:15%;left:8%;z-index:18;background:#ffffff10;animation:scratch 11s linear infinite;pointer-events:none}
+.film-head,.film-foot{position:relative;z-index:22;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 19px}
+.film-head{border-bottom:1px solid #ffffff22}.film-foot{border-top:1px solid #ffffff20;color:#777;font:9px Georgia,serif;letter-spacing:.1em}
+.brand{font:700 11px Arial,sans-serif;letter-spacing:.22em;white-space:nowrap}.brand small{display:block;color:#8d8d8d;font:9px "Noto Sans SC","Microsoft YaHei",sans-serif;letter-spacing:.06em;margin-top:4px}
+.actions{display:flex;align-items:center;gap:4px}.subtle-btn,.footer-btn{border:0;background:none;color:#bcbcbc;padding:9px 6px;font:10px Arial,sans-serif;min-height:40px}.subtle-btn:hover,.footer-btn:hover{color:#fff}.dots{font-size:21px;padding-right:1px}
+.screen{position:relative;min-height:0;display:flex;flex-direction:column;justify-content:center;padding:32px;cursor:pointer;overflow:hidden;touch-action:manipulation}
+.screen:before{content:"";position:absolute;left:50%;top:19%;width:190px;height:190px;border:1px solid #ffffff19;border-radius:50%;transform:translateX(-50%);box-shadow:0 0 0 21px #ffffff05;pointer-events:none}
+.screen:after{content:"";position:absolute;top:67%;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#ffffff2c,transparent);transform:rotate(-2deg);pointer-events:none}
+.film[data-scene="coin"] .screen:before,.film[data-scene^="coin"] .screen:before{width:100px;height:100px;border-color:#ffffff42}
+.film[data-scene="projection"] .screen:before{border-radius:2px;width:170px;height:250px;transform:translateX(-50%) rotate(7deg)}
+.frame{position:absolute;top:18px;left:21px;color:#a2a2a2;font:10px Georgia,serif;letter-spacing:.14em}
+.timecode{position:absolute;top:18px;right:21px;color:#666;font:10px Georgia,serif;letter-spacing:.15em}
+.chapter,.heading,.subtitle,.line-wrap,.tap-hint{position:relative;z-index:4}
+.chapter{font:10px Arial,sans-serif;letter-spacing:.18em;color:#aaa;margin-bottom:16px}
+.heading{font:500 clamp(29px,8vw,43px)/1.47 "Noto Serif SC","Songti SC","SimSun",serif;letter-spacing:.045em;margin:0 0 14px;overflow-wrap:anywhere;text-wrap:balance;color:#f7f7f5;text-shadow:0 4px 24px #0009}
+.subtitle{font-size:11px;letter-spacing:.07em;color:#919191;margin:0}
+.line-wrap{margin-top:34px;min-height:100px;max-height:min(32dvh,240px);overflow-y:auto;scrollbar-width:thin;scrollbar-color:#555 transparent}
+.voice{font:10px Arial,sans-serif;letter-spacing:.14em;color:#aaa;min-height:11px;margin-bottom:12px}
+.line{margin:0;font-size:clamp(16px,4.2vw,20px);font-weight:400;line-height:2.03;letter-spacing:.032em;color:#f6f6f6;white-space:pre-line;overflow-wrap:anywhere}
+.line[data-who="narrator"]{font-size:clamp(15px,4vw,18px);color:#bcbcbc}.line[data-who="girl"]{border-left:1px solid #ffffff8c;padding-left:13px}.line[data-who="self"]{font-style:italic}
+.line.animate{animation:lineIn .8s cubic-bezier(.17,.7,.2,1) both}.heading.animate{animation:titleIn 1.2s ease-out both}
+.tap-hint{position:absolute;right:24px;bottom:18px;font-size:10px;color:#9b9b9b;letter-spacing:.04em;animation:hint 2.6s ease-in-out infinite}.tap-hint:after{content:" ↓"}
+.effect-field{position:absolute;inset:0;z-index:3;pointer-events:none;overflow:hidden}
+.fragment{position:absolute;left:50%;top:47%;opacity:0;color:#eee;font:18px "Noto Serif SC","Songti SC",serif;white-space:nowrap;transform-origin:0 0;animation:scatter 3.2s cubic-bezier(.11,.63,.21,1) var(--delay,0ms) both}
+.film[data-emotion="scatter"] .heading{letter-spacing:.1em}
+.film[data-emotion="pressure"] .heading{animation:pressure 2.5s cubic-bezier(.3,.1,.4,.88) both;text-shadow:-2px 0 #fff8,2px 0 #aaa8}
+.film[data-emotion="pressure"] .line-wrap{animation:compress 2.3s ease-in-out .2s 1}
+.film[data-emotion="void"] .heading{animation:voidOut 3.6s ease-in-out both}
+.film[data-emotion="void"] .line.animate{animation:voidLine 3s ease-in-out both}
+.film[data-emotion="memory"] .heading{animation:exposure 3s ease-in-out both}
+.film[data-emotion="resolve"] .heading{letter-spacing:.13em}
+.dock{position:relative;z-index:22;min-height:96px;padding:11px 17px 13px;background:#101010;border-top:1px solid #ffffff24}
+.dock-head{display:flex;align-items:center;justify-content:space-between;gap:10px;color:#999;font-size:10px;letter-spacing:.1em;min-height:23px}
+.skip-btn{border:0;background:none;color:#bbb;padding:6px;font-size:10px}.skip-btn:hover{color:#fff}
+.rail{height:1px;background:#ffffff21;margin-top:7px}.rail > div{height:1px;background:#ddd;width:0;transition:width .3s ease}
+.choices{display:none;max-height:min(31dvh,250px);overflow-y:auto;scrollbar-color:#666 #111;scrollbar-width:thin;margin:9px -3px 0;padding:0 3px 0}.choices.visible{display:grid;animation:lineIn .6s ease both}
+.choice{display:flex;align-items:center;justify-content:space-between;gap:14px;background:transparent;color:#ededed;border:0;border-bottom:1px solid #ffffff24;font-size:13px;line-height:1.5;padding:10px 5px;min-height:45px;text-align:left;width:100%}.choice:last-child{border-bottom:0}.choice:hover,.choice:focus-visible{background:#ffffff12}.choice .num{color:#a2a2a2;font:12px Georgia,serif;white-space:nowrap}
+.extra{display:none;max-height:32dvh;overflow-y:auto}.extra.visible{display:block}
+textarea{display:block;width:100%;min-height:105px;resize:vertical;border:1px solid #666;background:#121212;color:#eee;padding:12px;font-size:14px;line-height:1.8}textarea::placeholder{color:#888}
+.note-hint{font-size:11px;line-height:1.8;color:#aaa}.note-actions{display:flex;align-items:center;gap:10px;padding:11px 0}
+.primary,.outline{border-radius:2px;padding:10px 14px;font-size:12px}.primary{background:#eee;color:#101010;border:1px solid #eee}.outline{background:transparent;color:#eee;border:1px solid #888}
+dialog{background:#151515;border:1px solid #888;color:#eee;padding:24px;width:min(390px,calc(100% - 30px));max-height:85dvh;overflow-y:auto}
+dialog::backdrop{background:#000e;backdrop-filter:blur(3px)}dialog h2{font:500 23px "Noto Serif SC","Songti SC",serif;margin:0 0 15px}dialog p{font-size:13px;color:#c9c9c9;line-height:1.85}dialog form{text-align:right;margin-top:17px}
+.menu-buttons{display:grid;gap:4px;margin:14px 0}.menu-buttons button{background:transparent;border:0;border-bottom:1px solid #ffffff2b;text-align:left;color:#eee;padding:13px 0;font-size:13px}.menu-buttons button:hover{background:#ffffff12}
+.section-label{font-size:10px;letter-spacing:.12em;color:#aaa;margin-top:20px}
+.previews{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}.previews button{background:none;color:#ddd;border:1px solid #ffffff5c;padding:8px 9px;font-size:11px}
+.tokens{display:flex;flex-wrap:wrap;gap:7px}.token{border:1px solid #aaa;padding:6px 8px;font-size:11px}.token.missing{opacity:.35}.memo-view{white-space:pre-wrap;overflow-wrap:anywhere}
+@keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(1%,-1%)}50%{transform:translate(-1%,1%)}75%{transform:translate(-1%,-2%)}100%{transform:translate(0,1%)}}
+@keyframes scratch{0%{opacity:0;transform:translateY(-30%)}45%{opacity:.3}100%{opacity:0;transform:translateY(130%)}}
+@keyframes lineIn{from{opacity:0;filter:blur(8px);transform:translateY(16px)}to{opacity:1;filter:blur(0);transform:translateY(0)}}
+@keyframes titleIn{from{opacity:0;filter:blur(12px);transform:translateY(20px) scale(1.02)}to{opacity:1;filter:blur(0);transform:translateY(0)}}
+@keyframes hint{50%{opacity:.35;transform:translateY(2px)}}
+@keyframes scatter{0%{opacity:0;transform:rotate(var(--angle)) translateY(0) scale(.2);filter:blur(4px)}20%{opacity:.8}70%{opacity:.4}100%{opacity:0;transform:rotate(var(--angle)) translateY(calc(-1 * var(--distance))) scale(1.4);filter:blur(3px)}}
+@keyframes pressure{0%{letter-spacing:.12em;transform:scaleX(1.06)}35%{letter-spacing:-.08em;transform:scaleX(.78)}38%{transform:scaleX(.81) translateX(-2px)}45%{transform:scaleX(.72) translateX(2px)}65%{transform:scaleX(.71)}100%{transform:scaleX(.87);letter-spacing:-.025em;text-shadow:-2px 0 #fff8,2px 0 #fff7}}
+@keyframes compress{0%,100%{transform:scaleX(1)}45%{transform:scaleX(.92)}70%{transform:scaleX(.96)}}
+@keyframes voidOut{0%{opacity:1;filter:blur(0)}38%{opacity:.83}76%{opacity:.13;filter:blur(5px)}100%{opacity:.58;filter:blur(1px)}}
+@keyframes voidLine{0%{opacity:0;filter:blur(9px)}25%{opacity:1;filter:blur(0)}70%{opacity:.24;filter:blur(2px)}100%{opacity:.9;filter:blur(0)}}
+@keyframes exposure{0%{opacity:.06;filter:blur(10px)}34%{opacity:.45;filter:blur(4px)}62%{opacity:.34;filter:blur(2px)}100%{opacity:1;filter:blur(0)}}
+.film.reduce .grain,.film.reduce .scratch{animation:none;opacity:.05}
+.film.reduce .heading,.film.reduce .line,.film.reduce .tap-hint,.film.reduce .choices{animation:none!important;transform:none!important;filter:none!important;opacity:1!important}
+.film.reduce .effect-field{display:none}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.effect-field{display:none}.grain{opacity:.05}.film[data-emotion="void"] .heading,.film[data-emotion="pressure"] .heading{opacity:1;filter:none;transform:none}}
+@media(min-width:700px){.projector{padding:24px 0}.film{height:min(860px,calc(100dvh - 48px));min-height:600px;border:1px solid #ffffff2a}}
+@media(max-width:400px){.screen{padding:27px}.heading{font-size:clamp(27px,8vw,36px)}.line-wrap{margin-top:27px}.film-head,.film-foot{padding:0 14px}}
+@media(max-height:650px){.screen{padding-top:40px;padding-bottom:21px}.heading{font-size:clamp(26px,7vw,34px);line-height:1.3}.line-wrap{margin-top:20px;min-height:58px;max-height:24dvh}.screen:before{width:140px;height:140px}.choices{max-height:25dvh}.dock{padding-top:7px;padding-bottom:8px}}
