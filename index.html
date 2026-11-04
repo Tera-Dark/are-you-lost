@@ -181,20 +181,27 @@
       choices:[{label:'接受这是电影，继续放映。',next:'hall'},{label:'不认同她，但仍想往下看。',next:'hall'}]
     },
     hall:{
-      chapter:'01 / 候车室',title:'你最想谈哪件事？',subtitle:'墙上的钟停在 03:17',
-      lines:[['narrator','头顶的灯偶尔闪动。外面很安静，像有人把整座城市的声音调低了。'],['girl','“我不保证能给你答案。”'],['girl','“不过，你可以说说。哪件事最让你觉得自己走不动了？”']],
+      chapter:'01 / 候车室',title:'这一场，镜头对准哪里？',subtitle:'墙上的钟停在 03:17',
+      lines:[['narrator','候车室的灯仍然亮着。站外有车辆经过，你没有看清是谁坐在里面。'],['girl','“一个镜头里装不下整个世界。”'],['girl','“所以这一次，你想先看哪里？”']],
       choices:[
-        {label:'回看售货机下的硬币。',next:'coin',when:s=>!s.incident},
-        {label:'把镜头交给那位清洁工。',next:'offscreen',when:s=>Boolean(s.incident)},
-        {label:'走到放映机背后。',next:'projection',when:s=>s.visited.length>=2},
-        {label:'不知道往哪里走，怕一生选错。',next:'future'},
-        {label:'没有钱，连保护重要事物的能力都没有。',next:'money'},
-        {label:'害怕有一天，连工作和价值都被替代。',next:'work'},
-        {label:'失去了什么，也无法原谅自己的无能为力。',next:'loss'},
-        {label:'做什么都像没意义，努力也不知道为了什么。',next:'meaning'},
-        {label:'我甚至不知道，为什么还要继续活着。',next:'exist'},
-        {label:'什么都不说，只想写几句自己的话。',next:'note'},
-        {label:'我想离开车站。',next:'ending'}
+        {label:'那枚硬币的故事，似乎还没结束。',next:'coin',when:s=>!s.incident},
+        {label:'镜头交给清洁工，看看他的生活。',next:'offscreen',when:s=>Boolean(s.incident)},
+        {label:'回到这里，谈谈那些没有答案的事。',next:'topics'},
+        {label:'放映机的背面，还有谁在看着？',next:'projection',when:s=>s.visited.length>=2},
+        {label:'结束这一幕，走向出口。',next:'ending'}
+      ]
+    },
+    topics:{
+      chapter:'02 / 那些事',title:'有些问题，不必急着回答。',subtitle:'特写 · 候车室里的两个普通人',
+      lines:[['narrator','少女坐在长椅的一端，把没有字的车票放在膝盖上。'],['girl','“挑一个现在对你有重量的话题。我们未必能给它结论。”']],
+      choices:[
+        {label:'前途：不知道该往哪里走。',next:'future'},
+        {label:'金钱：有些事真的需要钱才能办。',next:'money'},
+        {label:'工作：如果未来不再需要我的劳动。',next:'work'},
+        {label:'失去：有些事情永远无法重来。',next:'loss'},
+        {label:'意义：如果这一切都没有意义。',next:'meaning'},
+        {label:'活着：我不知道为什么要继续。',next:'exist'},
+        {label:'我想先把镜头移开。',next:'hall'}
       ]
     },
     future:{
