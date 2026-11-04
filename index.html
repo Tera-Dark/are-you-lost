@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#10131b">
-  <meta name="description" content="《ARE YOU LOST?》一个关于迷茫、失去、现实压力与存在意义的交互文字故事。你不必急着找到答案。">
+  <meta name="description" content="《ARE YOU LOST?》一场关于微小选择、因果、迷茫与第四面墙的交互电影。">
   <title>ARE YOU LOST? — 你也迷路了吗</title>
   <style>
     :root{color-scheme:dark;--ink:#eeeae8;--muted:#a5a8b3;--quiet:#737989;--line:rgba(225,228,235,.13);--accent:#e1bea8;--panel:rgba(17,21,30,.72);font-family:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif}
@@ -43,6 +43,12 @@
     dialog{width:min(440px,calc(100% - 28px));border:1px solid rgba(220,190,179,.35);background:#1c202a;color:#efebeb;border-radius:12px;padding:29px;line-height:1.9;box-shadow:0 30px 100px #000b}
     dialog::backdrop{background:rgba(0,0,0,.72);backdrop-filter:blur(7px)}dialog h2{font:400 24px "Noto Serif SC","Songti SC",serif;margin:0 0 16px}dialog p{font-size:13px;color:#c5c6cf}dialog a{color:#f0cdb8}
     .soft{font-size:11px;color:#888c99}.note-preview{font-size:12px;line-height:1.9;border-left:1px solid #8d7169;padding-left:12px;color:#b6adb0;white-space:pre-wrap;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
+
+    .film-strip{display:flex;justify-content:space-between;gap:20px;align-items:center;border-top:1px solid rgba(225,190,168,.19);border-bottom:1px solid rgba(225,190,168,.19);padding:12px 0;margin:-15px 0 30px;font:10px Georgia,serif;letter-spacing:.13em;color:#d4baa8;line-height:1.6}
+    .film-strip #worldCue{font-family:"Noto Sans SC","Microsoft YaHei",sans-serif;color:#9b9ca7;letter-spacing:.04em;text-align:right}
+    .world-note{color:#c3bdc0!important}
+    .causal-note{color:#bf9d8c!important}
+    @media(max-width:550px){.film-strip{gap:12px}}
     @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
     @media(max-width:800px){.shell{padding:0 22px 14px}.header{min-height:85px}.layout{display:block;padding-top:35px}.scene-subtitle{margin-bottom:29px}.dialogue{min-height:0}.side{border-left:0;border-top:1px solid var(--line);padding:22px 0 18px;position:static;margin-top:8px}.side p{margin-bottom:9px}.divider{margin:16px 0}.moon{right:3%;width:80px;height:80px}.roof{bottom:7%}}
     @media(max-width:480px){.header-actions{gap:5px}.ghost{padding:8px;font-size:11px}.brand{font-size:11px}.brand small{font-size:9px}.scene-title{font-size:34px}.line{font-size:14px}.choices{margin-top:24px}.foot{align-items:flex-start;gap:8px;padding-top:12px}.foot span{max-width:60%}}
@@ -54,7 +60,7 @@
 <div class="atmosphere" aria-hidden="true"><div class="moon"></div><div class="platform-light"></div><div class="roof"></div><div class="horizon"></div></div>
 <div class="shell">
   <header class="header">
-    <div class="brand">ARE YOU LOST?<small>一封寄给迷路者的信 / LETTERS FROM NOWHERE</small></div>
+    <div class="brand">ARE YOU LOST?<small>一场你参与、却不能完全掌控的放映</small></div>
     <nav class="header-actions" aria-label="游戏菜单">
       <button class="ghost" id="journalBtn" type="button">随身笔记</button>
       <button class="ghost" id="resetBtn" type="button">重来</button>
@@ -65,17 +71,22 @@
       <div class="kicker"><span class="eyebrow" id="chapter">00 / 凌晨</span></div>
       <h1 class="scene-title" id="sceneTitle">你也迷路了吗？</h1>
       <div class="scene-subtitle" id="sceneSubtitle">最后一班车已经离开。</div>
+      <div class="film-strip" aria-label="放映中的镜头"><span id="frameIndex">REEL 01 · SHOT 01</span><span id="worldCue">画外，世界继续。</span></div>
       <div class="dialogue" id="dialogue" aria-live="polite"></div>
       <div id="extra"></div>
       <div class="choices" id="choices"></div>
     </section>
     <aside class="side" aria-label="旅途记录">
-      <div class="side-head">THE LAST STATION / 03:17</div>
+      <div class="side-head">SCREENING ROOM / 03:17</div>
       <p>没有地图，没有正确选项。<br>这里记录你愿意触碰的问题。</p>
       <div class="stamp"><span id="count">00</span><span> / 06 个问题</span></div>
       <div class="divider"></div>
       <div class="side-head">你路过的地方</div>
       <div class="collected" id="tokens"></div>
+      <div class="divider"></div>
+      <div class="side-head">镜头之外</div>
+      <p id="outsideNote" class="world-note">站台之外，城市照常运作。</p>
+      <p id="causalNote" class="causal-note">一枚硬币，还没有自己的下一幕。</p>
       <div class="divider"></div>
       <div class="side-head">写给自己的话</div>
       <p class="quote" id="sideNote">还没有写下什么。沉默也没关系。</p>
@@ -107,8 +118,8 @@
     start:{
       chapter:'00 / 没有站名的车站',title:'你也迷路了吗？',subtitle:'凌晨 03:17 · 末班车站',
       lines:[
-        ['narrator','城市已经睡着了。你独自站在一座没有名字的车站。'],
-        ['narrator','电子屏上没有车次，只有一句不断闪烁的话：\n「终点站：尚未决定。」'],
+        ['narrator','【远景】\n城市没有睡着。只是这座车站，暂时没有人说话。'],
+        ['narrator','一辆凌晨送货的货车从你身后驶过，没有减速。\n电子屏不断闪烁：「终点站：尚未决定。」'],
         ['girl','“你等的那班车，也没来吗？”']
       ],
       choices:[{label:'我不记得自己要去哪里。',next:'arriveA'},{label:'我只是想找个地方坐一会儿。',next:'arriveB'}]
@@ -116,17 +127,66 @@
     arriveA:{
       chapter:'00 / 不确定的方向',title:'一张空白车票',subtitle:'车站候车室',
       lines:[['narrator','少女从售票口里拿出一张没有印字的纸票。'],['girl','“那就先不要决定目的地。”'],['girl','“这座车站的人，总以为必须先知道去哪儿，才能坐下来。”']],
-      choices:[{label:'坐到她对面。',next:'hall'}]
+      choices:[{label:'坐到她对面。',next:'coin'}]
     },
     arriveB:{
       chapter:'00 / 不必赶路',title:'一张空椅子',subtitle:'车站候车室',
       lines:[['narrator','少女把一张积了灰的椅子拉出来。她没有问你的名字。'],['girl','“可以。这里不催人走。”'],['girl','“也不卖那种‘想开一点就好了’的车票。”']],
-      choices:[{label:'坐下来。',next:'hall'}]
+      choices:[{label:'坐下来。',next:'coin'}]
+    },
+
+    coin:{
+      chapter:'01 / 一枚硬币',title:'一块钱，可以改变什么？',subtitle:'自动售货机 · 镜头 02',
+      lines:[['narrator','一枚一元硬币从售货机下滚出来，打着旋，停在你的鞋尖前。'],['narrator','站台另一头，夜班清洁工推着车经过。你不知道钱是不是他掉的。'],['girl','“你现在可以做点什么。但别急着相信，它一定会改变谁的一生。”']],
+      choices:[{label:'捡起硬币，追上那位清洁工。',next:'coinReturn'},{label:'把硬币放在售货机台面，等失主来。',next:'coinLedge'},{label:'不去碰它，看看接下来发生什么。',next:'coinLeave'}]
+    },
+    coinReturn:{
+      incident:'returned',chapter:'01 / 手心',title:'他并没有认出这枚硬币。',subtitle:'镜头跟拍 · 清洁工',
+      lines:[['narrator','清洁工先愣了一下，又摸了摸口袋。“是我的吧。”他想了想，“也可能不是。”'],['narrator','他把硬币放进零钱袋，继续推车。你没有得到一个确定答案。']],
+      choices:[{label:'回到候车室。',next:'hall'}]
+    },
+    coinLedge:{
+      incident:'ledge',chapter:'01 / 台面',title:'没有署名的好意',subtitle:'固定镜头 · 售货机',
+      lines:[['narrator','你把硬币放在台面。机器上只有饮用水和褪色的罐装咖啡。'],['narrator','你等了一会儿，没有人来认领。镜头也没有解释，这算善良、谨慎，还是不愿惹麻烦。']],
+      choices:[{label:'回到候车室。',next:'hall'}]
+    },
+    coinLeave:{
+      incident:'untouched',chapter:'01 / 地面',title:'不动，也是一种轨迹',subtitle:'长镜头 · 无人走廊',
+      lines:[['narrator','你没有伸手。硬币就躺在那里。'],['narrator','一个拖行李箱的人经过，塑料轮子发出很长的声音。没有发生戏剧性的事。至少这个镜头里没有。']],
+      choices:[{label:'回到候车室。',next:'hall'}]
+    },
+    offscreen:{
+      chapter:'幕外 / 别人的主场',title:'这一幕，主角不是你。',subtitle:'摄影机交给夜班清洁工',
+      lines:(s)=>[
+        ['narrator','【镜头移交】\n画面没有跟随你，而是跟上夜班清洁工。'],
+        ['narrator',({
+          returned:'他把你递来的硬币放进零钱袋，又拿出来放在钥匙旁。直到下班，他也没想起来是不是自己掉的。',
+          ledge:'他擦过售货机台面，看到一枚硬币，愣了几秒，把它收进失物盒。他不知道是谁放下的。',
+          untouched:'他推着拖把经过那枚硬币。金属响了一声，滑进机器底座，没有人弯腰去找。'
+        })[s.incident]||'他从地上捡起一个纸杯。还有三排椅子等着他擦。'],
+        ['narrator','手机震动了。房东发来下个月的缴费提醒。他看了一眼，继续擦下一块玻璃。'],
+        ['narrator','对他来说，今晚的主线不是你。他也有自己的生活，自己的困境，自己的下一个镜头。']
+      ],
+      choices:[{label:'把镜头交还给我。',next:'hall'}]
+    },
+    projection:{
+      chapter:'幕间 / 银幕背面',title:'真正做选择的是谁？',subtitle:'黑场 · 放映机的声音',
+      lines:(s)=>[
+        ['narrator','【画面缓缓变暗】\n你发觉自己一直在点击一行行句子。它们像你说的话，却不是你亲自写下的。'],
+        ['girl',s.seen.start>0?'“你回到过片头。至少，这部放映机还记得。”':'“也许你没有说出口，只是因为选项里没有。”'],
+        ['girl','“站在这里的人，是故事里的你。做出选择的那个人，在屏幕之外。”'],
+        ['girl','“我不知道你的名字、房间或生活。能留下的只有你在这部电影里做过的选择。”'],
+        ['narrator','对银幕里的她而言，今夜正在发生。对你而言，那次点击也的确发生过。两种真实，不必证明是同一种。']
+      ],
+      choices:[{label:'接受这是电影，继续放映。',next:'hall'},{label:'不认同她，但仍想往下看。',next:'hall'}]
     },
     hall:{
       chapter:'01 / 候车室',title:'你最想谈哪件事？',subtitle:'墙上的钟停在 03:17',
       lines:[['narrator','头顶的灯偶尔闪动。外面很安静，像有人把整座城市的声音调低了。'],['girl','“我不保证能给你答案。”'],['girl','“不过，你可以说说。哪件事最让你觉得自己走不动了？”']],
       choices:[
+        {label:'回看售货机下的硬币。',next:'coin',when:s=>!s.incident},
+        {label:'把镜头交给那位清洁工。',next:'offscreen',when:s=>Boolean(s.incident)},
+        {label:'走到放映机背后。',next:'projection',when:s=>s.visited.length>=2},
         {label:'不知道往哪里走，怕一生选错。',next:'future'},
         {label:'没有钱，连保护重要事物的能力都没有。',next:'money'},
         {label:'害怕有一天，连工作和价值都被替代。',next:'work'},
@@ -249,13 +309,13 @@
     },
     ending:{
       chapter:'09 / 清晨之前',title:'这里没有标准答案',subtitle:'出口旁的灯亮了',
-      lines:[['narrator','那块显示「终点站：尚未决定」的电子屏，突然黑了。'],['narrator','你以为下一秒会出现一行关于命运的解释。但它没有。'],['girl','“我不能告诉你之后一定会好起来。”'],['girl','“不过今晚，你至少可以不再逼自己，立刻回答所有的问题。”'],['narrator','你走向出口。城市依然在那里，和来时一样复杂。'],['narrator','只是那张空白车票，被你放进了口袋。']],
+      lines:[['narrator','那块显示「终点站：尚未决定」的电子屏，突然黑了。'],['narrator','你以为下一秒会出现一行关于命运的解释。但它没有。'],['girl','“我不能告诉你之后一定会好起来。”'],['girl','“不过今晚，你至少可以不再逼自己，立刻回答所有的问题。”'],['narrator','你走向出口。城市依然在那里，和来时一样复杂。'],['narrator','镜头没有跟着你。站外的清洁工依然要赶回家，街边的小店照常开门。'],['narrator','【最后一镜】\n电影结束了。世界没有。']],
       choices:[{label:'再坐一会儿。',next:'hall'},{label:'在车票上写一句话。',next:'note'},{label:'重新走进这座车站。',next:'start'}]
     }
   };
-  function fresh(){return {node:'start',visited:[],note:'',started:Date.now()}}
+  function fresh(){return {node:'start',visited:[],note:'',started:Date.now(),incident:null,seen:{}}}
   function readState(){
-    try {const s=JSON.parse(localStorage.getItem(KEY)||'null');if(s && S[s.node] && Array.isArray(s.visited)) return {node:s.node,visited:s.visited.filter(x=>TOPICS[x]),note:typeof s.note==='string'?s.note.slice(0,600):'',started:s.started||Date.now()}}
+    try {const s=JSON.parse(localStorage.getItem(KEY)||'null');if(s && S[s.node] && Array.isArray(s.visited)) return {node:s.node,visited:s.visited.filter(x=>TOPICS[x]),note:typeof s.note==='string'?s.note.slice(0,600):'',started:s.started||Date.now(),incident:['returned','ledge','untouched'].includes(s.incident)?s.incident:null,seen:s.seen&&typeof s.seen==='object'?s.seen:{}}}
     catch(e){}
     return fresh();
   }
@@ -268,6 +328,8 @@
   function go(id){
     if(!S[id])return;
     state.node=id;
+    state.seen[id]=(Number(state.seen[id])||0)+1;
+    if(S[id].incident)state.incident=S[id].incident;
     if(S[id].topic && !state.visited.includes(S[id].topic))state.visited.push(S[id].topic);
     save();render();window.scrollTo({top:0,behavior:'smooth'});
   }
@@ -277,7 +339,8 @@
     $('sceneTitle').textContent=s.title;
     $('sceneSubtitle').textContent=s.subtitle;
     $('dialogue').replaceChildren();
-    for(const [who,t] of s.lines){
+    const lines=typeof s.lines==='function'?s.lines(state):s.lines;
+    for(const [who,t] of lines){
       const p=make('p','line',t);
       p.dataset.voice=who;
       if(who==='girl'){p.prepend(make('span','speaker','她 / THE STRANGER'));}
@@ -288,7 +351,15 @@
     $('choices').replaceChildren();
     if(state.node==='note') renderNote();
     if(state.node==='ending') renderEnding();
-    for(const ch of s.choices){
+    if(state.node==='lossA' && state.visited.includes('money')){
+      const e=make('p','line','“你刚才谈过钱。”她说，“资源不足和失去后的遗憾，会缠在一起，但它们不是同一件事。”');
+      e.dataset.voice='girl';$('dialogue').append(e);
+    }
+    if(state.node==='meaningB' && state.visited.includes('work')){
+      const e=make('p','line','你想起刚才关于劳动价值的谈话。原来你也曾经拿市场给出的价格衡量自己。');
+      e.dataset.voice='narrator';$('dialogue').append(e);
+    }
+    for(const ch of s.choices.filter(ch=>!ch.when||ch.when(state))){
       const b=make('button','choice');
       b.type='button';b.append(make('span','',ch.label),make('span','arr','↗'));
       b.addEventListener('click',()=>{
@@ -297,6 +368,20 @@
       });
       $('choices').append(b);
     }
+    const independentEvents=[
+      '站外的送货车正在卸货，司机已经工作四个小时。',
+      '夜班保洁员在交接钥匙，有一把暂时找不到。',
+      '便利店点亮了灯。第一位顾客只买了一个面包。',
+      '一个年轻人登上早班车，准备去面试一份不喜欢的工作。',
+      '城市里的早班人群陆续经过，没人注意候车室。',
+      '天色渐亮，路口的交通灯按照固定节奏变化。',
+      '另一条街的早餐店开门了。今天也有人忘带零钱。'
+    ];
+    const coinEcho={returned:'硬币已经递给清洁工，他并不能确认是否属于自己。',ledge:'硬币被留在台面，后来被清洁工收进失物盒。',untouched:'硬币没有被捡起，最后滑进了机器底座。'};
+    $('frameIndex').textContent='REEL 01 · SHOT '+String(Object.values(state.seen).reduce((n,v)=>n+(Number(v)||0),1)).padStart(2,'0');
+    $('worldCue').textContent='画外 / 世界并不等待你';
+    $('outsideNote').textContent=independentEvents[Math.min(state.visited.length,independentEvents.length-1)];
+    $('causalNote').textContent=coinEcho[state.incident]||'一枚硬币仍在等待下一个镜头。';
     $('count').textContent=String(state.visited.length).padStart(2,'0');
     $('tokens').replaceChildren();
     for(const [key,name] of Object.entries(TOPICS)){
@@ -323,6 +408,8 @@
     const n=state.visited.length;
     p.textContent=n===0?'你还没有谈及任何问题。没关系，这里允许沉默。':n<3?'你只谈了几个问题。也许其余的，还不适合今天触碰。':'你走过了 '+n+' 个问题，没有谁因此给你颁发一张“想明白了”的证明。';
     $('dialogue').append(p);
+    const echoes={returned:'你把硬币交给了不确定的失主。那一刻发生过，但你不知道它之后有多重要。',ledge:'硬币进了失物盒。你的好意有了去向，却没有人知道它是谁留下的。',untouched:'硬币滑进机器底座。你没做决定，世界也没有因此停下。'};
+    if(state.incident){const ep=make('p','line','【另一条因果】\n'+echoes[state.incident]);ep.dataset.voice='narrator';$('dialogue').append(ep);}
     if(state.note){const n=make('p','line','你留下的一句话：\n“'+state.note+'”');n.dataset.voice='self';$('dialogue').append(n);}
     const exportBtn=make('button','ghost','把这张车票带走 · 导出文字');
     exportBtn.type='button';exportBtn.style.marginBottom='20px';
