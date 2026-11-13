@@ -1,0 +1,81 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --bg-obsidian: #0A0A0C;
+    --surface-elevated: #141418;
+    --text-primary: #EAE6DF;
+    --text-muted: #8A867E;
+    --accent-amber: #E2A856;
+    --accent-amber-dim: #B87D32;
+    --border-hairline: rgba(255, 255, 255, 0.08);
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+    background-color: var(--bg-obsidian);
+    color: var(--text-primary);
+    font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", Georgia, serif;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+.font-display {
+  font-family: "Cormorant Garamond", "Noto Serif SC", Georgia, serif;
+}
+
+.font-serif-body {
+  font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", Georgia, serif;
+}
+
+.font-sans-ui {
+  font-family: "Noto Sans SC", -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+}
+
+.pb-safe {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+.pt-safe {
+  padding-top: max(0.5rem, env(safe-area-inset-top));
+}
+
+/* Subtle custom scrollbar for memory drawer */
+.obsidian-scroll::-webkit-scrollbar {
+  width: 3px;
+}
+.obsidian-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.obsidian-scroll::-webkit-scrollbar-thumb {
+  background: rgba(234, 230, 223, 0.14);
+  border-radius: 999px;
+}
+
+@keyframes char-soft-reveal {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.char-reveal {
+  animation-name: char-soft-reveal;
+  animation-duration: 300ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .char-reveal {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+}
+

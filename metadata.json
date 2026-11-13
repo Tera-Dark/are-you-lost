@@ -1,0 +1,6 @@
+{
+  "name": "Are you lost?",
+  "description": "一款手机端优先的极简电影感文字叙事互动游戏，在深夜微光与抉择中探寻生活困境的自我回响。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
